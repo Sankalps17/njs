@@ -1,0 +1,54 @@
+<!--Develop an Angular JS application that displays a list of shopping items. Allow users to add and remove
+items from the list using directives and controllers. Note: The default values of items may be included in
+the program.
+
+1) The shopping list is managed by this AngularJS application using a controller called myctrl.
+2) The item list is displayed using 'ng-repeat' and there is an input field for adding new items.
+3) when an item is clicked on the 'Remove Item' button next to each one, it is removed from the list. 
+4) Clicking the 'Add Item' button adds the entered item to the list. 
+5)The items in the default list are "Egg","Bread" and "Milk".-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shopping List Application</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    
+</head>
+<body ng-app="shoppingApp" ng-controller="shoppingController">
+    <h2>Shopping List</h2>
+
+    <input type="text" ng-model="newItem" placeholder="Enter a new item">
+    <button ng-click="addItem()">Add Item</button>
+    <br><br>
+    <table border="1">
+        <tr ng-repeat="item in items">
+           <th> {{ item }} </th>
+           <td> <button ng-click="removeItem($index)">Remove</button></td>
+        </tr>
+    </table>
+    
+    <br><br>
+    Total Number of Items=<b>{{items.length}}</b>
+
+<script>
+var app = angular.module('shoppingApp', []);
+
+app.controller('shoppingController', function($scope) {
+    $scope.items = ['Milk', 'Bread', 'Cheese']; 
+
+    $scope.addItem = function() {
+        if ($scope.newItem) {
+            $scope.items.push($scope.newItem);
+            $scope.newItem = ''; 
+        }
+    };
+
+    $scope.removeItem = function(index) {
+        $scope.items.splice(index, 1);
+    };
+});
+</script>
+
+</body>
+</html>

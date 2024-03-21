@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<head>
+    <title>To-Do List</title>
+    <script src="sanks.js"></script>
+</head>
+<body>
+    <div ng-app="todoApp" ng-controller="TodoController">
+        <h2>To-Do List</h2>
+        <form ng-submit="addTask()">
+            <label>New Task:</label>
+            <input type="text" ng-model="newTask" required>
+            <button type="submit">Add Task</button>
+        </form>
+        <ul>
+            <li ng-repeat="task in tasks">
+                <span ng-if="!task.editing">{{ task.name }}</span>
+                <input type="text" ng-model="task.name" ng-if="task.editing">
+                <button ng-click="editTask(task)">Edit</button>
+                <button ng-click="saveTask(task)" ng-if="task.editing">Save</button>
+               <!-- <button ng-click="cancelEdit(task)" ng-if="task.editing">Cancel</button> -->
+                <button ng-click="deleteTask($index)">Delete</button>
+            </li>
+        </ul>
+    </div>
+    <script>
+        var app = angular.module('todoApp', []);
+        app.controller('TodoController', function ($scope) {
+            $scope.tasks = [
+                { name: 'homework', editing: false },
+                { name: 'playing', editing: false },
+                { name: 'sleeping', editing: false },   
+                
+            ];
+            $scope.newTask = '';
+            $scope.addTask = function () {
+                if ($scope.newTask) {
+                    $scope.tasks.push({ name: $scope.newTask, editing: false });
+                    $scope.newTask = '';
+                }
+            };
+            $scope.editTask = function (task) {
+                task.editing = true;
+            };
+            $scope.saveTask = function (task) {
+                task.editing = false;
+            };
+           // $scope.cancelEdit = function (task) {
+          //      task.editing = false;
+            //};
+            $scope.deleteTask = function (index) {
+                $scope.tasks.splice(index, 1);
+            };
+        });
+    </script>
+</body>
+</html>
