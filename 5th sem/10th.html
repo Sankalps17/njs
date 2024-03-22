@@ -1,59 +1,50 @@
 <!DOCTYPE html>
 <html>
-<title>Item Management Application</title>
-
-<head>
-    <script type="text/javascript"
-        src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
-</head>
-
-<body ng-app="itemMgmtApp">
-    <h1>Item Management Application</h1>
-    <div ng-controller="itemMgmtAppCntrl">
-        Enter an item to add: <input type="text" ng-model="newItem" placeholder="item">
-        <button ng-click="addItem()">ADD</button>
-        <br /><br />
-        <b>List of Items</b>
-        <table border="1">
+    <head>
+        <title>AngularJS Shopping List App</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    </head>
+    <body ng-app="myApp" ng-controller="myCtrl">
+        <h1>Item Management Application</h1>
+        <input type="text" ng-model="newItem" placeholder="Enter New Item">
+        <button ng-click="addItem()">Add Item</button>
+        <hr />
+        <table border="5">
             <tr>
                 <th>SLNO</th>
                 <th>Item</th>
                 <th>Remove</th>
             </tr>
-            <tr ng-repeat="item in itemList">
+            <tr ng-repeat="item in items">
                 <td>{{$index+1}}</td>
                 <td>{{item}}</td>
-                <td><button ng-click="removeItem($index)">Remove</button></td>
+                <td>
+                    <button ng-click="removeItem($index)">Remove Item</button>
+                </td>
             </tr>
         </table>
         <br />
-        Total Number of Items=<b>{{itemList.length}}</b>
-    </div>
-
-    <script>
-        var app = angular.module("itemMgmtApp", []);
-        app.controller("itemMgmtAppCntrl", function ($scope) {
-            $scope.itemList = ['Pen', 'Pencil', 'Eraser', 'Book','cup']
-            $scope.addItem = function () {
-                if ($scope.newItem) {
-                    if ($scope.itemList.indexOf($scope.newItem) == -1) { 
-                        $scope.itemList.push($scope.newItem) 
-                    } 
-                    else { alert('This item is already there in the item collection') }
-                }
-                else { alert('Please Enter the item to add') }
-            }
-            $scope.removeItem = function (index) {
-                var item = $scope.itemList[index];
-                var yes = confirm("Are you sure you want to delete" + item)
-                
-                if (yes == true) {
-                    $scope.itemList.splice(index, 1)
-                }
-            }
-        });
-
-    </script>
-</body>
-
+        Total Number of Items=<b>{{items.length}}</b>
+        <script>
+            var app = angular.module("myApp", []);
+            app.controller("myCtrl", function($scope) {
+                $scope.items = ["Milk", "Bread", "Egg"];
+                $scope.addItem = function() {
+                    if ($scope.newItem) {
+                        if ($scope.items.indexOf($scope.newItem) == -1) {
+                            $scope.items.push($scope.newItem);
+                            $scope.newItem = "";
+                        } else {
+                            alert('This item is already there in the item collection');
+                        }
+                    } else {
+                        alert('Please Enter the item to add');
+                    }
+                };
+                $scope.removeItem = function(index) {
+                    $scope.items.splice(index, 1);
+                };
+            });
+        </script>
+    </body>
 </html>
